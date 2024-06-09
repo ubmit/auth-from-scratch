@@ -2,12 +2,16 @@ import { Hono } from "hono";
 import { Home } from "./pages/home";
 import { Login } from "./pages/login";
 
+function sleep(ms: number) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
 const app = new Hono();
 
-let user = false;
+let isLoggedIn = false;
 
 app.get("/", (c) => {
-  return c.html(<Home user={user} />);
+  return c.html(<Home user={isLoggedIn} />);
 });
 
 app.get("/login", (c) => {
@@ -20,14 +24,16 @@ app.post("/session", async (c) => {
   // TODO: move this to DELETE /session
   if (fd.get("intent") === "delete") {
     console.log("Logging out...");
-    user = false;
+    await sleep(1000);
+    isLoggedIn = false;
     console.log("User is now logged out");
     return c.redirect("/");
   }
 
   console.log({ username: fd.get("username"), password: fd.get("password") });
   console.log("Logging in...");
-  user = true;
+  await sleep(1000);
+  isLoggedIn = true;
   console.log(`Logged in as ${fd.get("username")}`);
   return c.redirect("/");
 });
