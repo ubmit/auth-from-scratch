@@ -1,11 +1,11 @@
 import { Hono } from 'hono'
 import { methodOverride } from 'hono/method-override'
 
-import { authenticateUser, createUser, getAllUsers } from './db/models/user'
+import { authenticateUser, createUser, getAllUsers } from '@/db/models/user'
 
-import { Home } from './pages/home'
-import { Login } from './pages/login'
-import { Signup } from './pages/signup'
+import { Home } from '@/pages/home'
+import { Login } from '@/pages/login'
+import { Signup } from '@/pages/signup'
 
 const app = new Hono()
 
@@ -32,6 +32,7 @@ app.post('/session', async (c) => {
 
   try {
     await authenticateUser({ username, password })
+    console.log('Logging in...')
     isLoggedIn = true
     console.log('User is logged in')
     return c.redirect('/')
