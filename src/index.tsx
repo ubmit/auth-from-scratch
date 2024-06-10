@@ -4,6 +4,7 @@ import { sleep } from 'bun'
 
 import { Home } from './pages/home'
 import { Login } from './pages/login'
+import { db } from './db'
 
 const app = new Hono()
 
@@ -36,6 +37,12 @@ app.delete('/session', async (c) => {
   isLoggedIn = false
   console.log('User is now logged out')
   return c.redirect('/')
+})
+
+app.get('/users', (c) => {
+  const query = db.query('SELECT * FROM users')
+  const users = query.all()
+  return c.json(users)
 })
 
 export default app
