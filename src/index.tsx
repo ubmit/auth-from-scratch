@@ -53,10 +53,15 @@ app.post('/users', async (c) => {
   const username = String(fd.get('username'))
   const password = String(fd.get('password'))
 
-  const query = db.prepare(
-    'INSERT INTO users (username, password) VALUES ($username, $password)',
-  )
-  query.run(username, password)
+  try {
+    const hashedPassword = await Bun.password.hash(password)
+    const query = db.prepare(
+      'INSERT INTO users (username, password) VALUES ($username, $password)',
+    )
+    query.run(username, hashedPassword)
+  } catch (e) {
+    return c.json({ error: 'User was not created' }, 400)
+  }
 
   return c.redirect('/login')
 })
