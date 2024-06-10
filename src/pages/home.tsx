@@ -1,4 +1,4 @@
-import { Layout } from "../components/layout";
+import { Layout } from '../components/layout'
 
 export function Home({ user }: { user: boolean }) {
   return (
@@ -14,5 +14,5 @@ export function Home({ user }: { user: boolean }) {
         </button>
       )}
     </Layout>
-  );
+  )
 }

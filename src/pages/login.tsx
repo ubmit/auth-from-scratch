@@ -1,4 +1,4 @@
-import { Layout } from "../components/layout";
+import { Layout } from '../components/layout'
 
 export function Login() {
   return (
@@ -7,8 +7,8 @@ export function Login() {
         action="/session"
         method="post"
         style={{
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
           gap: 8,
           maxWidth: 320,
         }}
@@ -22,5 +22,5 @@ export function Login() {
         <button style={{ width: 80 }}>Login</button>
       </form>
     </Layout>
-  );
+  )
 }
