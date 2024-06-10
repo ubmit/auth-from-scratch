@@ -3,6 +3,7 @@ import { Layout } from '../components/layout'
 export function Login() {
   return (
     <Layout>
+      <h1>Login</h1>
       <form
         action="/session"
         method="post"

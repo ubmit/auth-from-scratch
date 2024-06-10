@@ -3,6 +3,7 @@ import { Layout } from '../components/layout'
 export function Signup() {
   return (
     <Layout>
+      <h1>Register</h1>
       <form
         action="/users"
         method="POST"
