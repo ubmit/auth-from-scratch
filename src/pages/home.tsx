@@ -5,7 +5,8 @@ export function Home({ user }: { user: boolean }) {
     <Layout>
       <h1>Auth from scratch</h1>
       {user ? (
-        <form action="/session?_method=DELETE" method="POST">
+        <form action="/session" method="POST">
+          <input type="hidden" name="_method" value="DELETE" />
           <button>Logout</button>
         </form>
       ) : (

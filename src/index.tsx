@@ -17,7 +17,7 @@ app.get("/login", (c) => {
   return c.html(<Login />);
 });
 
-app.use("/session", methodOverride({ app, query: "_method" }));
+app.use("/session", methodOverride({ app }));
 
 app.post("/session", async (c) => {
   const fd = await c.req.formData();
