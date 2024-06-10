@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "db:seed": "bun run src/db/seed.ts",
     "dev": "bun run --hot src/index.tsx",
     "format": "prettier --write ."
   },
