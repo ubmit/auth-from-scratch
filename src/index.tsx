@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { methodOverride } from 'hono/method-override'
 
-import { db } from './db'
+import { authenticateUser, createUser, getAllUsers } from './db/models/user'
 
 import { Home } from './pages/home'
 import { Login } from './pages/login'
@@ -27,12 +27,19 @@ app.use('/session', methodOverride({ app, query: '_method' }))
 
 app.post('/session', async (c) => {
   const fd = await c.req.formData()
-  console.log(fd)
-  console.log({ username: fd.get('username'), password: fd.get('password') })
-  console.log('Logging in...')
-  isLoggedIn = true
-  console.log(`Logged in as ${fd.get('username')}`)
-  return c.redirect('/')
+  const username = String(fd.get('username'))
+  const password = String(fd.get('password'))
+
+  try {
+    await authenticateUser({ username, password })
+    isLoggedIn = true
+    console.log('User is logged in')
+    return c.redirect('/')
+  } catch (e) {
+    if (e instanceof Error) {
+      return c.json({ error: e.message }, 400)
+    }
+  }
 })
 
 app.delete('/session', async (c) => {
@@ -43,8 +50,7 @@ app.delete('/session', async (c) => {
 })
 
 app.get('/users', (c) => {
-  const query = db.query('SELECT * FROM users')
-  const users = query.all()
+  const users = getAllUsers()
   return c.json(users)
 })
 
@@ -54,16 +60,13 @@ app.post('/users', async (c) => {
   const password = String(fd.get('password'))
 
   try {
-    const hashedPassword = await Bun.password.hash(password)
-    const query = db.prepare(
-      'INSERT INTO users (username, password) VALUES ($username, $password)',
-    )
-    query.run(username, hashedPassword)
+    await createUser({ username, password })
+    return c.redirect('/login')
   } catch (e) {
-    return c.json({ error: 'User was not created' }, 400)
+    if (e instanceof Error) {
+      return c.json({ error: e.message }, 400)
+    }
   }
-
-  return c.redirect('/login')
 })
 
 export default app
