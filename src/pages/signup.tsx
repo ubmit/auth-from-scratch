@@ -1,11 +1,11 @@
 import { Layout } from '../components/layout'
 
-export function Login() {
+export function Signup() {
   return (
     <Layout>
       <form
-        action="/session"
-        method="post"
+        action="/users"
+        method="POST"
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -19,11 +19,8 @@ export function Login() {
         <label for="password-input">Password</label>
         <input id="password-input" name="password" type="password" />
 
-        <button style={{ width: 80 }}>Login</button>
+        <button style={{ width: 80 }}>Register</button>
       </form>
-      <p>
-        Don't have an account? <a href="/signup">Sign up</a>
-      </p>
     </Layout>
   )
 }

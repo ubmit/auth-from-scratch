@@ -6,6 +6,7 @@ import { db } from './db'
 
 import { Home } from './pages/home'
 import { Login } from './pages/login'
+import { Signup } from './pages/signup'
 
 const app = new Hono()
 
@@ -17,6 +18,10 @@ app.get('/', (c) => {
 
 app.get('/login', (c) => {
   return c.html(<Login />)
+})
+
+app.get('/signup', (c) => {
+  return c.html(<Signup />)
 })
 
 app.use('/session', methodOverride({ app, query: '_method' }))
