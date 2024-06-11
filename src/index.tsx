@@ -11,6 +11,7 @@ const app = new Hono()
 
 let isLoggedIn = false
 
+// pages' routes
 app.get('/', (c) => {
   return c.html(<Home user={isLoggedIn} />)
 })
@@ -23,9 +24,10 @@ app.get('/signup', (c) => {
   return c.html(<Signup />)
 })
 
-app.use('/session', methodOverride({ app, query: '_method' }))
+// api routes
+app.use('/api/session', methodOverride({ app, query: '_method' }))
 
-app.post('/session', async (c) => {
+app.post('/api/session', async (c) => {
   const fd = await c.req.formData()
   const username = String(fd.get('username'))
   const password = String(fd.get('password'))
@@ -43,19 +45,19 @@ app.post('/session', async (c) => {
   }
 })
 
-app.delete('/session', async (c) => {
+app.delete('/api/session', async (c) => {
   console.log('Logging out...')
   isLoggedIn = false
   console.log('User is now logged out')
   return c.redirect('/')
 })
 
-app.get('/users', (c) => {
+app.get('/api/users', (c) => {
   const users = getAllUsers()
   return c.json(users)
 })
 
-app.post('/users', async (c) => {
+app.post('/api/users', async (c) => {
   const fd = await c.req.formData()
   const username = String(fd.get('username'))
   const password = String(fd.get('password'))
